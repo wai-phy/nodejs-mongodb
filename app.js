@@ -1,7 +1,8 @@
 const express = require("express");
-const {mongoDbConnect} = require("./utils/database");
+const mongoose = require("mongoose");
 const path = require("path");
-const bodyParser = require('body-parser');
+const bodyParser = require("body-parser");
+const dotenv = require("dotenv").config();
 
 const app = express();
 
@@ -12,17 +13,16 @@ const adminRoute = require("./routes/admin");
 app.use(express.static(path.join(__dirname, "public")));
 app.use(bodyParser.urlencoded({ extended: false }));
 
-app.use("/admin", (req, res, next) => {
-    console.log("This is middleware admin");
-    next();
-  });
-
 app.set("view engine", "ejs");
 app.set("views", "views");
 
 app.use(postRoutes);
 app.use("/admin", adminRoute);
 
-mongoDbConnect();
-app.listen(8080);
-
+mongoose
+  .connect(process.env.MONGODB_URL)
+  .then(() => {
+    console.log("mongodb connected");
+    app.listen(8080);
+  })
+  .catch((err) => console.log(err));

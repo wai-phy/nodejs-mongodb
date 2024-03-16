@@ -1,11 +1,8 @@
-const posts = [];
 const Post = require("../models/post");
 
 exports.createPost = (req, res) => {
   const { title, description, imgUrl } = req.body;
-  const post = new Post(title, description, imgUrl);
-  post
-    .create()
+  Post.create({ title, description, imgUrl })
     .then((result) => {
       console.log(result);
       res.redirect("/");
@@ -17,7 +14,7 @@ exports.renderCreatePage = (req, res) => {
   res.render("create", { title: "Create Page" });
 };
 exports.renderHomePage = (req, res) => {
-  Post.getPosts()
+  Post.find().sort({_id: 'desc'})
     .then((posts) => {
       res.render("home", { title: "Home Page", posts: posts });
     })
@@ -26,7 +23,7 @@ exports.renderHomePage = (req, res) => {
 
 exports.getPost = (req, res) => {
   const id = req.params.id;
-  Post.getPost(id)
+  Post.findById(id)
     .then((post) => {
       res.render("details", { title: "Detail Page", post: post });
     })
@@ -35,7 +32,7 @@ exports.getPost = (req, res) => {
 
 exports.getEditPost = (req, res) => {
   const id = req.params.id;
-  Post.getPost(id)
+  Post.findById(id)
     .then((post) => {
       if (!post) {
         return res.redirect("/");
@@ -47,11 +44,16 @@ exports.getEditPost = (req, res) => {
 
 exports.updatePost = (req, res) => {
   const { id, title, description, imgUrl } = req.body;
-  const post = new Post(title, description, imgUrl, id);
-  post
-    .create()
+
+  Post.findById(id)
     .then((post) => {
-      console.log("post updated");
+      post.title = title;
+      post.description = description;
+      post.imgUrl = imgUrl;
+      return post.save();
+    })
+    .then((result) => {
+      console.log(result);
       res.redirect("/");
     })
     .catch((err) => console.log(err));
@@ -59,7 +61,7 @@ exports.updatePost = (req, res) => {
 
 exports.deletePost = (req, res) => {
   const { id } = req.params;
-  Post.deleteById(id)
+  Post.findByIdAndDelete(id)
     .then(() => {
       console.log("post deleted");
       res.redirect("/");
