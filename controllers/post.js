@@ -2,7 +2,7 @@ const Post = require("../models/post");
 
 exports.createPost = (req, res) => {
   const { title, description, imgUrl } = req.body;
-  Post.create({ title, description, imgUrl })
+  Post.create({ title, description, imgUrl, userId: req.user })
     .then((result) => {
       console.log(result);
       res.redirect("/");
@@ -14,8 +14,12 @@ exports.renderCreatePage = (req, res) => {
   res.render("create", { title: "Create Page" });
 };
 exports.renderHomePage = (req, res) => {
-  Post.find().sort({_id: 'desc'})
+  Post.find()
+    .select("title")
+    .populate("userId", "username")
+    .sort({ _id: "desc" })
     .then((posts) => {
+      console.log(posts);
       res.render("home", { title: "Home Page", posts: posts });
     })
     .catch((err) => console.log(err));

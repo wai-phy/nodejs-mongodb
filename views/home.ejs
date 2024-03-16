@@ -15,7 +15,10 @@
         <% }%>
         <% for(let post of posts) { %>
         <div class="post-box">
-            <p class="post-title"><%= post.title %></p>
+            <div>
+                <p class="post-title"><%= post.title %></p>
+                <p class="">Posted by @<%= post.userId.username %></p>
+            </div>
             <a class="btn" href="/post/<%= post._id %>">See More...</a>
         </div>
         <% } %>
