@@ -1,0 +1,26 @@
+<%- include("./includes/head") %>
+
+        <section class="max-width">
+            <h1 class="title">Create Post</h1>
+            <div>
+                <a href="/">Go Back Home</a>
+            </div>
+            <form action="/admin" method="post">
+                <div>
+                    <label class="label" for="title">Title</label>
+                    <input class="input-box" type="text" id="title" name="title" required>
+                </div>
+                <div>
+                    <label for="description">Description</label>
+                    <input type="text" id="description" name="description"
+                        required>
+                </div>
+                <div>
+                    <label for="imgUrl">Image</label>
+                    <input type="url" id="imgUrl" name="imgUrl"
+                        required>
+                </div>
+                <button>Add Post</button>
+            </form>
+        </section>
+        <%- include("./includes/footer") %>

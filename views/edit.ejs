@@ -1,0 +1,27 @@
+<%- include("./includes/head") %>
+
+        <section class="max-width">
+            <h1 class="title">Edit Post</h1>
+            <div>
+                <a href="/">Go Back Home</a>
+            </div>
+            <form action="/admin/post-edit" method="post">
+                <input class="input-box" type="hidden" name="id" value="<%= post._id %>" >
+                <div>
+                    <label class="label" for="title">Title</label>
+                    <input class="input-box" type="text" id="title" value="<%= post.title %>" name="title" required>
+                </div>
+                <div>
+                    <label for="description">Description</label>
+                    <input type="text" value="<%= post.description %>" id="description" name="description"
+                        required>
+                </div>
+                <div>
+                    <label for="photo">Image</label>
+                    <input type="url" value="<%= post.imgUrl %>" id="photo" name="photo"
+                        required>
+                </div>
+                <button>Update Post</button>
+            </form>
+        </section>
+        <%- include("./includes/footer") %>

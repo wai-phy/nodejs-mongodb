@@ -1,0 +1,74 @@
+.title{
+    text-align: center;
+}
+.desc{
+    color: palevioletred;
+    text-align: center;
+}
+
+a{
+    display: block;
+    margin: 10px 0;
+    color: #fff;
+    background-color: black;
+    padding: 8px 10px;
+    width: fit-content;
+    text-decoration: none;
+    
+}
+
+div{
+    margin: 20px 0;
+}
+label{
+    display: block;
+    margin-top: 20px;
+}
+
+input{
+    font-size: 18px;
+    padding: 4px 10px;
+    width: 100%;
+
+}
+
+button, .btn-edit{
+    margin: 10px 0;
+    color: #fff;
+    background-color: black;
+    padding: 8px 10px;
+    width: 100%;
+    cursor: pointer;
+}
+
+.max-width{
+    width: 50%;
+    margin: auto;
+}
+
+.post{
+    text-align: center;
+}
+.post-box{
+    /* text-align: center; */
+    border: 1px solid black;
+    padding: 10px 20px;
+
+}
+
+.post-title{
+    font-size: 20px;
+    font-weight: 600;
+    text-transform: uppercase;
+}
+
+.detail{
+    width: 100%;
+    margin: auto;
+    text-align: center;
+}
+
+.detail img{
+    width: 40%;
+    margin: auto;
+}

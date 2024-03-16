@@ -1,0 +1,22 @@
+<%- include("./includes/head") %>
+        <h1 class="title">Home Page</h1>
+        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Laudantium
+            commodi aliquam quisquam in, fugiat reiciendis iste facilis
+            necessitatibus harum quasi nam, itaque tenetur nisi, eum enim eaque
+            aliquid esse id.</p><a href="/admin/create">Add A Post Here</a>
+        <hr>
+        <h1 class="post">Posts</h1>
+        <% if(posts.length < 1) { %>
+            <div>
+                <h3>Nothing to show</h3>
+                <p>Create a post now!</p>
+                <a href="/admin/create">Add Post</a>
+            </div>
+        <% }%>
+        <% for(let post of posts) { %>
+        <div class="post-box">
+            <p class="post-title"><%= post.title %></p>
+            <a class="btn" href="/post/<%= post._id %>">See More...</a>
+        </div>
+        <% } %>
+    <%- include("./includes/footer") %>
