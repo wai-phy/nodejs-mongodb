@@ -14,15 +14,19 @@ exports.renderCreatePage = (req, res) => {
   res.render("create", { title: "Create Page" });
 };
 exports.renderHomePage = (req, res) => {
-  const cookie = req.get("Cookie").split("=")[1].trim() === "true";
-  console.log(cookie)
+  // const cookie = req.get("Cookie").split("=")[1].trim() === "true";
+  // console.log(cookie)
   Post.find()
     .select("title")
     .populate("userId", "username")
     .sort({ _id: "desc" })
     .then((posts) => {
       console.log(posts);
-      res.render("home", { title: "Home Page", posts: posts, isLogin: cookie });
+      res.render("home", {
+        title: "Home Page",
+        posts: posts,
+        isLogin: req.session.isLogin ? true : false,
+      });
     })
     .catch((err) => console.log(err));
 };

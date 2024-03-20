@@ -3,19 +3,35 @@ const mongoose = require("mongoose");
 const path = require("path");
 const bodyParser = require("body-parser");
 const dotenv = require("dotenv").config();
+const session = require("express-session");
+const mongoStore = require("connect-mongodb-session")(session);
+
+const store = new mongoStore({
+  uri : process.env.MONGODB_URI,
+  collection: "sessions"
+})
 
 const app = express();
-
 const User = require("./models/user");
 
 app.use(express.json());
 
+//routes
 const postRoutes = require("./routes/post");
 const adminRoute = require("./routes/admin");
-const authRoute = require("./routes/auth")
+const authRoute = require("./routes/auth");
 app.use(express.static(path.join(__dirname, "public")));
 app.use(bodyParser.urlencoded({ extended: false }));
+app.use(
+  session({
+    secret: process.env.SESSION_KEY,
+    resave: false,
+    saveUninitialized: false,
+    store: store
+  })
+);
 
+//middleware
 app.use((req, res, next) => {
   User.findById("65f5b93f8aaf049f23c1d5c6").then((user) => {
     req.user = user;
