@@ -12,6 +12,7 @@ app.use(express.json());
 
 const postRoutes = require("./routes/post");
 const adminRoute = require("./routes/admin");
+const authRoute = require("./routes/auth")
 app.use(express.static(path.join(__dirname, "public")));
 app.use(bodyParser.urlencoded({ extended: false }));
 
@@ -27,6 +28,7 @@ app.set("views", "views");
 
 app.use(postRoutes);
 app.use("/admin", adminRoute);
+app.use(authRoute);
 
 mongoose
   .connect(process.env.MONGODB_URL)
