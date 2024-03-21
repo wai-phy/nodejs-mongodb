@@ -7,9 +7,9 @@ const session = require("express-session");
 const mongoStore = require("connect-mongodb-session")(session);
 
 const store = new mongoStore({
-  uri : process.env.MONGODB_URI,
-  collection: "sessions"
-})
+  uri: process.env.MONGODB_URI,
+  collection: "sessions",
+});
 
 const app = express();
 const User = require("./models/user");
@@ -27,17 +27,17 @@ app.use(
     secret: process.env.SESSION_KEY,
     resave: false,
     saveUninitialized: false,
-    store: store
+    store: store,
   })
 );
 
 //middleware
-app.use((req, res, next) => {
-  User.findById("65f5b93f8aaf049f23c1d5c6").then((user) => {
-    req.user = user;
-    next();
-  });
-});
+// app.use((req, res, next) => {
+//   User.findById("65f5b93f8aaf049f23c1d5c6").then((user) => {
+//     req.user = user;
+//     next();
+//   });
+// });
 
 app.set("view engine", "ejs");
 app.set("views", "views");
@@ -51,17 +51,6 @@ mongoose
   .then(() => {
     app.listen(8080);
     console.log("mongodb connected");
-    return User.findOne()
-      .then((user) => {
-        if (!user) {
-          return User.create({
-            username: "WaiGyi",
-            email: "waigyi@gmail.com",
-            password: "12345",
-          });
-        }
-        return user;
-      })
-      .then((result) => console.log(result));
   })
+  // .then((result) => console.log(result))
   .catch((err) => console.log(err));

@@ -4,7 +4,7 @@ exports.createPost = (req, res) => {
   const { title, description, imgUrl } = req.body;
   Post.create({ title, description, imgUrl, userId: req.user })
     .then((result) => {
-      console.log(result);
+      // console.log(result);
       res.redirect("/");
     })
     .catch((err) => console.log(err));
@@ -21,7 +21,7 @@ exports.renderHomePage = (req, res) => {
     .populate("userId", "username")
     .sort({ _id: "desc" })
     .then((posts) => {
-      console.log(posts);
+      // console.log(posts);
       res.render("home", {
         title: "Home Page",
         posts: posts,
@@ -63,7 +63,7 @@ exports.updatePost = (req, res) => {
       return post.save();
     })
     .then((result) => {
-      console.log(result);
+      // console.log(result);
       res.redirect("/");
     })
     .catch((err) => console.log(err));
