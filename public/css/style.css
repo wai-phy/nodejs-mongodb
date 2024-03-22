@@ -72,3 +72,8 @@ button, .btn-edit{
     width: 40%;
     margin: auto;
 }
+
+.errorMsg{
+    color: red;
+    text-align: center;
+}

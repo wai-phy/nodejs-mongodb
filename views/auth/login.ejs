@@ -1,22 +1,28 @@
 <%- include("../includes/head") %>
 
-        <section class="max-width">
-            <h1 class="title">Login In Your Account</h1>
-            <div>
-                <a href="/">Go Back Home</a>
-            </div>
-            <form action="/login" method="post">
-                <input type="hidden" value="<%= csrfToken %>" name="_csrf">
-                <div>
-                    <label class="label" for="email">Email</label>
-                    <input class="input-box" type="email" id="email" name="email">
-                </div>
-                <div>
-                    <label class="label" for="password">Password</label>
-                    <input class="input-box" type="password" id="password" name="password">
-                </div>
-                
-                <button>Login</button>
-            </form>
-        </section>
-        <%- include("../includes/footer") %>
+<section class="max-width">
+    <div>
+        <a href="/">Go Back Home</a>
+    </div>
+    <h1 class="title">Login In Your Account</h1>
+    <div>
+        <% if(errorMsg) { %>
+            <p class="errorMsg"><%= errorMsg %></p>
+        <% } %>
+    </div>
+    <form action="/login" method="post">
+        <input type="hidden" value="<%= csrfToken %>" name="_csrf">
+        <div>
+            <label class="label" for="email">Email</label>
+            <input class="input-box" type="email" id="email" name="email">
+        </div>
+        <div>
+            <label class="label" for="password">Password</label>
+            <input class="input-box" type="password" id="password"
+                name="password">
+        </div>
+
+        <button>Login</button>
+    </form>
+</section>
+<%- include("../includes/footer") %>

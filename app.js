@@ -6,7 +6,9 @@ const dotenv = require("dotenv").config();
 const session = require("express-session");
 const mongoStore = require("connect-mongodb-session")(session);
 const { isLoginMiddleware } = require("./middleware/is-login");
-var csrf = require('csurf');
+const csrf = require('csurf');
+const flash = require("connect-flash");
+
 
 const store = new mongoStore({
   uri: process.env.MONGODB_URI,
@@ -58,9 +60,12 @@ app.use((req, res, next) => {
   res.locals.csrfToken = req.csrfToken();
   next();
 });
+//flash 
+app.use(flash())
 app.use(postRoutes);
 app.use("/admin", isLoginMiddleware, adminRoute);
 app.use(authRoute);
+
 
 mongoose
   .connect(process.env.MONGODB_URL)

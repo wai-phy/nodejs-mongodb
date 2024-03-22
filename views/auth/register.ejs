@@ -1,9 +1,14 @@
 <%- include("../includes/head") %>
 
         <section class="max-width">
-            <h1 class="title">Register A New Account</h1>
             <div>
                 <a href="/">Go Back Home</a>
+            </div>
+            <h1 class="title">Register A New Account</h1>
+            <div>
+                <% if(errorMsg) { %>
+                    <p class="errorMsg"><%= errorMsg %></p>
+                <% } %>
             </div>
             <form action="/register" method="post">
                 <input type="hidden" value="<%= csrfToken %>" name="_csrf">
