@@ -5,11 +5,15 @@ const bodyParser = require("body-parser");
 const dotenv = require("dotenv").config();
 const session = require("express-session");
 const mongoStore = require("connect-mongodb-session")(session);
+const { isLoginMiddleware } = require("./middleware/is-login");
+var csrf = require('csurf');
 
 const store = new mongoStore({
   uri: process.env.MONGODB_URI,
   collection: "sessions",
 });
+
+const csrfProtect = csrf();
 
 const app = express();
 const User = require("./models/user");
@@ -31,19 +35,31 @@ app.use(
   })
 );
 
-//middleware
-// app.use((req, res, next) => {
-//   User.findById("65f5b93f8aaf049f23c1d5c6").then((user) => {
-//     req.user = user;
-//     next();
-//   });
-// });
+// middleware
+app.use((req, res, next) => {
+  if (req.session.isLogin === undefined) {
+    return next();
+  }
+  User.findById(req.session.userInfo._id)
+    .select("_id email")
+    .then((user) => {
+      req.user = user;
+      next();
+    });
+});
+
+app.use(csrfProtect);
 
 app.set("view engine", "ejs");
 app.set("views", "views");
 
+app.use((req, res, next) => {
+  res.locals.isLogin = req.session.isLogin ? true : false,
+  res.locals.csrfToken = req.csrfToken();
+  next();
+});
 app.use(postRoutes);
-app.use("/admin", adminRoute);
+app.use("/admin", isLoginMiddleware, adminRoute);
 app.use(authRoute);
 
 mongoose

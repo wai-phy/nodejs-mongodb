@@ -6,6 +6,7 @@
                 <a href="/">Go Back Home</a>
             </div>
             <form action="/admin" method="post">
+                <input type="hidden" value="<%= csrfToken %>" name="_csrf">
                 <div>
                     <label class="label" for="title">Title</label>
                     <input class="input-box" type="text" id="title" name="title" required>

@@ -6,6 +6,7 @@
                 <a href="/">Go Back Home</a>
             </div>
             <form action="/admin/post-edit" method="post">
+                <input type="hidden" value="<%= csrfToken %>" name="_csrf">
                 <input class="input-box" type="hidden" name="id" value="<%= post._id %>" >
                 <div>
                     <label class="label" for="title">Title</label>

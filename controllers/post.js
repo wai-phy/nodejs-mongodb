@@ -18,14 +18,13 @@ exports.renderHomePage = (req, res) => {
   // console.log(cookie)
   Post.find()
     .select("title")
-    .populate("userId", "username")
+    .populate("userId", "email")
     .sort({ _id: "desc" })
     .then((posts) => {
       // console.log(posts);
       res.render("home", {
         title: "Home Page",
         posts: posts,
-        isLogin: req.session.isLogin ? true : false,
       });
     })
     .catch((err) => console.log(err));
