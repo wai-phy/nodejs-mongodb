@@ -5,7 +5,7 @@
     necessitatibus harum quasi nam, itaque tenetur nisi, eum enim eaque
     aliquid esse id.</p>
 <% if(isLogin) { %>
-<a href="/admin/create">Add A Post Here</a>
+<a href="/admin/create">Add A Post Here as <%= currentUserEmail %> </a>
 <form action="/logout" method="post">
     <input type="hidden" value="<%= csrfToken %>" name="_csrf">
     <button>Logout</button>
@@ -16,7 +16,7 @@
 <% } %>
 <hr>
 <h1 class="post">Posts</h1>
-<% if(posts.length < 1) { %>
+<% if(posts.length < 1 && isLogin) { %>
 <div>
     <h3>Nothing to show</h3>
     <p>Create a post now!</p>

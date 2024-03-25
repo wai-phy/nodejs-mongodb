@@ -14,8 +14,6 @@ exports.renderCreatePage = (req, res) => {
   res.render("create", { title: "Create Page" });
 };
 exports.renderHomePage = (req, res) => {
-  // const cookie = req.get("Cookie").split("=")[1].trim() === "true";
-  // console.log(cookie)
   Post.find()
     .select("title")
     .populate("userId", "email")
@@ -25,6 +23,9 @@ exports.renderHomePage = (req, res) => {
       res.render("home", {
         title: "Home Page",
         posts: posts,
+        currentUserEmail: req.session.userInfo
+          ? req.session.userInfo.email
+          : "",
       });
     })
     .catch((err) => console.log(err));
@@ -34,7 +35,7 @@ exports.getPost = (req, res) => {
   const id = req.params.id;
   Post.findById(id)
     .then((post) => {
-      res.render("details", { title: "Detail Page", post: post });
+      res.render("details", { title: "Detail Page", post: post, currentUserId : req.session.userInfo ? req.session.userInfo._id : "" });
     })
     .catch((err) => console.log(err));
 };
@@ -56,21 +57,24 @@ exports.updatePost = (req, res) => {
 
   Post.findById(id)
     .then((post) => {
+      if (post.userId.toString() !== req.user._id.toString()) {
+        return res.redirect("/");
+      }
       post.title = title;
       post.description = description;
       post.imgUrl = imgUrl;
-      return post.save();
+      return post.save().then(() => {
+        console.log("Post Updated");
+        res.redirect("/");
+      });
     })
-    .then((result) => {
-      // console.log(result);
-      res.redirect("/");
-    })
+
     .catch((err) => console.log(err));
 };
 
 exports.deletePost = (req, res) => {
   const { id } = req.params;
-  Post.findByIdAndDelete(id)
+  Post.deleteOne({_id : id , userId: req.user._id})
     .then(() => {
       console.log("post deleted");
       res.redirect("/");
