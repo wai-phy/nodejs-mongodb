@@ -14,11 +14,11 @@
                 <input type="hidden" value="<%= csrfToken %>" name="_csrf">
                 <div>
                     <label class="label" for="email">Email</label>
-                    <input class="input-box" type="email" id="email" name="email">
+                    <input class="input-box" type="email" id="email" name="email" value="<%= oldData.email %>">
                 </div>
                 <div>
                     <label class="label" for="password">Password</label>
-                    <input class="input-box" type="password" id="password" name="password">
+                    <input class="input-box" type="password" id="password" value="<%= oldData.password %>" name="password">
                 </div>
                 
                 <button>Create A Account</button>

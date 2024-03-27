@@ -1,9 +1,21 @@
 .title{
     text-align: center;
+    font-size: 50px;
 }
 .desc{
     color: palevioletred;
-    text-align: center;
+    /* text-align: center; */
+}
+.authenticate , .authenticate div{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+}
+
+.authenticate span{
+    font-size: 20px;
+    font-weight: 600;
 }
 
 a{
@@ -49,10 +61,28 @@ button, .btn-edit{
 .post{
     text-align: center;
 }
+
+.logout-add-post{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+}
+
+.logout-add-post span{
+    font-size: 20px;
+    font-weight: 600;
+}
+
+.post-container{
+    display: flex;
+    flex-wrap: wrap;
+}
 .post-box{
-    /* text-align: center; */
-    border: 1px solid black;
     padding: 10px 20px;
+    display: block;
+    align-items: center;
+    justify-content: space-between;
 
 }
 
@@ -61,15 +91,19 @@ button, .btn-edit{
     font-weight: 600;
     text-transform: uppercase;
 }
+.post-email{
+    font-style: italic;
+    color: magenta;
+}
 
 .detail{
-    width: 100%;
+    width: 70%;
     margin: auto;
     text-align: center;
 }
 
 .detail img{
-    width: 40%;
+    width: 80%;
     margin: auto;
 }
 

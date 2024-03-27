@@ -1,21 +1,31 @@
 <%- include("./includes/head") %>
-<h1 class="title">Home Page</h1>
+<h1 class="title">Blog.io</h1>
 <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Laudantium
     commodi aliquam quisquam in, fugiat reiciendis iste facilis
     necessitatibus harum quasi nam, itaque tenetur nisi, eum enim eaque
-    aliquid esse id.</p>
+    aliquid esse id. Lorem ipsum dolor sit amet, consectetur adipisicing elit.
+    Facere doloremque fugit animi beatae accusamus tempore neque laboriosam
+    reiciendis quibusdam, voluptatibus nesciunt incidunt, ipsa minima eaque ut
+    alias nihil culpa in.</p>
 <% if(isLogin) { %>
-<a href="/admin/create">Add A Post Here as <%= currentUserEmail %> </a>
-<form action="/logout" method="post">
-    <input type="hidden" value="<%= csrfToken %>" name="_csrf">
-    <button>Logout</button>
-</form>
+    <div class="logout-add-post">
+        <a href="/admin/create">Add A Post Here as <%= currentUserEmail %> </a>
+        <span>or</span>
+        <form action="/logout" method="post">
+            <input type="hidden" value="<%= csrfToken %>" name="_csrf">
+            <button class="logout">Logout</button>
+        </form>
+    </div>
 <% } else { %>
-<a href="/register">Create A New Account</a>
-<a href="/login">Login to An Existing Account</a>
+<div class="authenticate">
+    <div>
+        <a href="/register">Create A New Account</a> <span>Or</span>
+        <a href="/login">Login to Existing Account</a>
+    </div>
+</div>
 <% } %>
 <hr>
-<h1 class="post">Posts</h1>
+<h1 class="post">Recent Posts</h1>
 <% if(posts.length < 1 && isLogin) { %>
 <div>
     <h3>Nothing to show</h3>
@@ -23,13 +33,17 @@
     <a href="/admin/create">Create A New Post</a>
 </div>
 <% }%>
-<% for(let post of posts) { %>
-<div class="post-box">
-    <div>
-        <p class="post-title"><%= post.title %></p>
-        <p>Posted By <%= post.userId.email %></p>
+<div class="post-container">
+    <% for(let post of posts) { %>
+    <div class="post-box">
+        <div>
+            <p class="post-title"><%= post.title %></p>
+            <p class="desc"><%= post.description.substring(1, 300) %></p>
+            <p class="post-email">Posted By <%= post.userId.email %></p>
+        </div>
+        <a class="btn" href="/post/<%= post._id %>">Read More...</a>
+        <hr>
     </div>
-    <a class="btn" href="/post/<%= post._id %>">See More...</a>
+    <% } %>
 </div>
-<% } %>
 <%- include("./includes/footer") %>

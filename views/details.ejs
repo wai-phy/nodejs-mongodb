@@ -5,11 +5,11 @@
     <p class="desc"><%= post.description %></p>
     <hr>
     <% if(post.userId.toString() === currentUserId.toString()){ %>
-        <form action="/admin/post/<%= post._id %>" method="post">
-            <input type="hidden" value="<%= csrfToken %>" name="_csrf">
-            <button>Delete Post</button>
-        </form> 
-        <a class="btn-edit" href="/admin/post_edit/<%= post._id %>">Edit Post</a>
+    <form action="/admin/post/<%= post._id %>" method="post">
+        <input type="hidden" value="<%= csrfToken %>" name="_csrf">
+        <button>Delete Post</button>
+    </form>
+    <a class="btn-edit" href="/admin/post_edit/<%= post._id %>">Edit Post</a>
     <%}%>
 </section>
 
