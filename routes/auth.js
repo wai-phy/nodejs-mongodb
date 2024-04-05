@@ -48,7 +48,7 @@ router.get("/reset-password", authController.getResetPage);
 router.get("/feedback", authController.getFeedbackPage);
 
 //reset password
-router.post("/reset", authController.mailSendPassword);
+router.post("/reset",body("email").isEmail().withMessage("Please Enter Valid Email Address."), authController.mailSendPassword);
 
 //change password page
 router.get("/reset-password/:token", authController.getNewPassPage);

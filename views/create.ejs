@@ -5,20 +5,25 @@
             <div>
                 <a href="/">Go Back Home</a>
             </div>
+            <div>
+                <% if(errorMsg) { %>
+                <p class="errorMsg"><%= errorMsg %></p>
+                <% } %>
+            </div>
             <form action="/admin" method="post">
                 <input type="hidden" value="<%= csrfToken %>" name="_csrf">
                 <div>
                     <label class="label" for="title">Title</label>
-                    <input class="input-box" type="text" id="title" name="title" required>
+                    <input class="input-box" type="text" id="title" value="<%= oldData.title %>" name="title" required>
                 </div>
                 <div>
                     <label for="description">Description</label>
-                    <input type="text" id="description" name="description"
+                    <input type="text" id="description" name="description" value="<%= oldData.description %>"
                         required>
                 </div>
                 <div>
                     <label for="imgUrl">Image</label>
-                    <input type="url" id="imgUrl" name="imgUrl"
+                    <input type="url" id="imgUrl" name="imgUrl" value="<%= oldData.imgUrl %>"
                         required>
                 </div>
                 <button>Add Post</button>

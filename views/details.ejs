@@ -1,6 +1,8 @@
 <%- include("./includes/head") %>
 <section class="detail">
     <h1><%= post.title %></h1>
+    <p>Post By <%= post.userId.email %> </p>
+    <p>Uploaded At <%= post.createdAt %></p>
     <img src="<%= post.imgUrl %>" alt>
     <p class="desc"><%= post.description %></p>
     <hr>

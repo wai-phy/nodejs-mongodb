@@ -1,28 +1,38 @@
 <%- include("./includes/head") %>
 
-        <section class="max-width">
-            <h1 class="title">Edit Post</h1>
-            <div>
-                <a href="/">Go Back Home</a>
-            </div>
-            <form action="/admin/post-edit" method="post">
-                <input type="hidden" value="<%= csrfToken %>" name="_csrf">
-                <input class="input-box" type="hidden" name="id" value="<%= post._id %>" >
-                <div>
-                    <label class="label" for="title">Title</label>
-                    <input class="input-box" type="text" id="title" value="<%= post.title %>" name="title" required>
-                </div>
-                <div>
-                    <label for="description">Description</label>
-                    <input type="text" value="<%= post.description %>" id="description" name="description"
-                        required>
-                </div>
-                <div>
-                    <label for="imgUrl">Image</label>
-                    <input type="url" value="<%= post.imgUrl %>" id="imgUrl" name="imgUrl"
-                        required>
-                </div>
-                <button>Update Post</button>
-            </form>
-        </section>
-        <%- include("./includes/footer") %>
+<section class="max-width">
+    <h1 class="title">Edit Post</h1>
+    <div>
+        <a href="/">Go Back Home</a>
+    </div>
+    <% if(errorMsg) { %>
+    <p class="errorMsg"><%= errorMsg %></p>
+    <% } %>
+    <form action="/admin/post-edit" method="post">
+        <input type="hidden" value="<%= csrfToken %>" name="_csrf">
+        <input class="input-box" type="hidden" name="id"
+            value="<%= isValidationFail ? id :post._id %>">
+        <div>
+            <label class="label" for="title">Title</label>
+            <input class="input-box" type="text" id="title"
+                value="<%= isValidationFail ? oldData.title : post.title %>"
+                name="title" required>
+        </div>
+        <div>
+            <label for="description">Description</label>
+            <input type="text"
+                value="<%= isValidationFail ? oldData.description : post.description %>"
+                id="description" name="description"
+                required>
+        </div>
+        <div>
+            <label for="imgUrl">Image</label>
+            <input type="url"
+                value="<%= isValidationFail ? oldData.imgUrl : post.imgUrl %>"
+                id="imgUrl" name="imgUrl"
+                required>
+        </div>
+        <button>Update Post</button>
+    </form>
+</section>
+<%- include("./includes/footer") %>
