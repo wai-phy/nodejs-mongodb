@@ -111,3 +111,16 @@ button, .btn-edit{
     color: red;
     text-align: center;
 }
+
+.error-page{
+    text-align: center;
+    margin-top: 60px;
+}
+
+.error-page h1{
+    font-size: 40px;
+}
+
+.error-page a{
+    margin: auto;
+}

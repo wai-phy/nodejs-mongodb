@@ -6,9 +6,9 @@ const dotenv = require("dotenv").config();
 const session = require("express-session");
 const mongoStore = require("connect-mongodb-session")(session);
 const { isLoginMiddleware } = require("./middleware/is-login");
-const csrf = require('csurf');
+const csrf = require("csurf");
 const flash = require("connect-flash");
-
+const errorController = require("./controllers/error");
 
 const store = new mongoStore({
   uri: process.env.MONGODB_URI,
@@ -26,6 +26,7 @@ app.use(express.json());
 const postRoutes = require("./routes/post");
 const adminRoute = require("./routes/admin");
 const authRoute = require("./routes/auth");
+const { title } = require("process");
 app.use(express.static(path.join(__dirname, "public")));
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(
@@ -56,16 +57,19 @@ app.set("view engine", "ejs");
 app.set("views", "views");
 
 app.use((req, res, next) => {
-  res.locals.isLogin = req.session.isLogin ? true : false,
-  res.locals.csrfToken = req.csrfToken();
+  (res.locals.isLogin = req.session.isLogin ? true : false),
+    (res.locals.csrfToken = req.csrfToken());
   next();
 });
-//flash 
-app.use(flash())
+//flash
+app.use(flash());
 app.use(postRoutes);
 app.use("/admin", isLoginMiddleware, adminRoute);
 app.use(authRoute);
 
+//404 not found page
+app.all("*", errorController.get404Page);
+app.use(errorController.get500Page);
 
 mongoose
   .connect(process.env.MONGODB_URL)

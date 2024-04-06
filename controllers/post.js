@@ -1,7 +1,7 @@
 const Post = require("../models/post");
 const { validationResult } = require("express-validator");
 
-exports.createPost = (req, res) => {
+exports.createPost = (req, res,next) => {
   const { title, description, imgUrl } = req.body;
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
@@ -16,7 +16,11 @@ exports.createPost = (req, res) => {
       // console.log(result);
       res.redirect("/");
     })
-    .catch((err) => console.log(err));
+    .catch((err) => {
+      console.log(err);
+      const error = new Error("Something went wrong when create!");
+      return next(error);
+    });
 };
 
 exports.renderCreatePage = (req, res) => {
@@ -44,9 +48,10 @@ exports.renderHomePage = (req, res) => {
     .catch((err) => console.log(err));
 };
 
-exports.getPost = (req, res) => {
+exports.getPost = (req, res, next) => {
   const id = req.params.id;
-  Post.findById(id).populate("userId","email")
+  Post.findById(id)
+    .populate("userId", "email")
     .then((post) => {
       // console.log(post);
       res.render("details", {
@@ -55,7 +60,11 @@ exports.getPost = (req, res) => {
         currentUserId: req.session.userInfo ? req.session.userInfo._id : "",
       });
     })
-    .catch((err) => console.log(err));
+    .catch((err) => {
+      console.log(err);
+      const error = new Error("Post not found with this id.");
+      return next(error);
+    });
 };
 
 exports.getEditPost = (req, res) => {
@@ -67,14 +76,22 @@ exports.getEditPost = (req, res) => {
       }
       res.render("edit", {
         title: "Edit Page",
-        id:undefined,
+        id: undefined,
         post: post,
         errorMsg: "",
-        oldData: { title : undefined, description : undefined, imgUrl: undefined },
+        oldData: {
+          title: undefined,
+          description: undefined,
+          imgUrl: undefined,
+        },
         isValidationFail: false,
       });
     })
-    .catch((err) => console.log(err));
+    .catch((err) => {
+      console.log(err);
+      const error = new Error("Something went wrong !");
+      return next(error);
+    });
 };
 
 exports.updatePost = (req, res) => {
@@ -103,15 +120,23 @@ exports.updatePost = (req, res) => {
       });
     })
 
-    .catch((err) => console.log(err));
+    .catch((err) => {
+      console.log(err);
+      const error = new Error("Something went wrong when update!");
+      return next(error);
+    });
 };
 
-exports.deletePost = (req, res) => {
+exports.deletePost = (req, res, next) => {
   const { id } = req.params;
   Post.deleteOne({ _id: id, userId: req.user._id })
     .then(() => {
       console.log("post deleted");
       res.redirect("/");
     })
-    .catch((err) => console.log(err));
+    .catch((err) => {
+      console.log(err);
+      const error = new Error("Something went wrong !");
+      return next(error);
+    });
 };
